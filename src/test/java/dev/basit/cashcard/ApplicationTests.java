@@ -1,4 +1,4 @@
-package example.cashcard;
+package dev.basit.cashcard;
 
 
 import com.jayway.jsonpath.DocumentContext;
