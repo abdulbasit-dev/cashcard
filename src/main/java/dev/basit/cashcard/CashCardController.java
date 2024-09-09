@@ -2,12 +2,18 @@ package dev.basit.cashcard;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+
 import java.net.URI;
-import java.util.List;
+//import java.util.List;
+import java.util.*;
 import java.util.Optional;
 
 @RestController
@@ -22,11 +28,16 @@ public class CashCardController {
     }
 
 
-    @GetMapping("")
-    public List<CashCard> findAll() {
-        return (List<CashCard>) repository.findAll();
+    @GetMapping
+    private ResponseEntity<List<CashCard>> findAll(Pageable pageable) {
+        Page<CashCard> page = repository.findAll(
+                PageRequest.of(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        pageable.getSortOr(Sort.by(Sort.Direction.ASC,"amount"))
+                ));
+        return ResponseEntity.ok(page.getContent());
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<CashCard> findById(@PathVariable int id) {
