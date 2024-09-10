@@ -1,6 +1,6 @@
 # Cash Card API
 
-<img src="./Congratulations.png" alt="Congratulations">
+<img src="./cover.webp" alt="Congratulations">
 
 ## Spring Boot REST API
 
