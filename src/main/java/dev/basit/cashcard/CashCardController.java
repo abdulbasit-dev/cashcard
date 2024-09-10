@@ -45,10 +45,10 @@ public class CashCardController {
 
         logger.info("Finding cash card with id: {}", id);
 
-        Optional<CashCard> cashCard = Optional.ofNullable(repository.findByIdAndOwner(id, principal.getName()));
+        CashCard cashCard = (repository.findByIdAndOwner(id, principal.getName()));
 
-        if(cashCard.isPresent()){
-           return ResponseEntity.ok(cashCard.get());
+        if(cashCard!=null){
+           return ResponseEntity.ok(cashCard);
         }
 
         logger.info("Cash card with id: {} not found", id);
