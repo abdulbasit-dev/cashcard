@@ -45,7 +45,7 @@ public class CashCardController {
 
         logger.info("Finding cash card with id: {}", id);
 
-        CashCard cashCard = (repository.findByIdAndOwner(id, principal.getName()));
+        CashCard cashCard = findCashCard(id,principal);
 
         if(cashCard!=null){
            return ResponseEntity.ok(cashCard);
@@ -67,7 +67,7 @@ public class CashCardController {
 
     @PutMapping("/{id}")
     private ResponseEntity<Void> updateCashCard(@PathVariable Integer id,@RequestBody CashCard cashCardUpdate,Principal principal){
-        CashCard cashCard = repository.findByIdAndOwner(id, principal.getName());
+        CashCard cashCard = findCashCard(id, principal);
 
         if(cashCard!=null){
             CashCard updatedCashCard = new CashCard(cashCard.id(), cashCardUpdate.amount(), principal.getName());
@@ -76,6 +76,9 @@ public class CashCardController {
         }
 
         return ResponseEntity.notFound().build();
+    }
 
+    private CashCard findCashCard(Integer id, Principal principal){
+        return repository.findByIdAndOwner(id,principal.getName());
     }
 }
