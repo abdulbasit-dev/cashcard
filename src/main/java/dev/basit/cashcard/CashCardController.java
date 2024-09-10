@@ -12,10 +12,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 
 import java.net.URI;
-//import java.util.List;
 import java.security.Principal;
 import java.util.*;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cashcards")
@@ -76,6 +74,23 @@ public class CashCardController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity<Void> deleteCashCard(@PathVariable Integer id,Principal principal){
+
+        if(!repository.existsByIdAndOwner(id, principal.getName())){
+            return ResponseEntity.notFound().build();
+        }
+
+//        Second Way
+//        if(repository.findByIdAndOwner(id, principal.getName())==null){
+//            return ResponseEntity.notFound().build();
+//        }
+
+        repository.deleteById(id);
+        return ResponseEntity.noContent().build();
+
     }
 
     private CashCard findCashCard(Integer id, Principal principal){
